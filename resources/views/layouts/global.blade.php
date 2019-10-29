@@ -76,6 +76,11 @@
                             <span class="oi oi-people"></span> Manage Users
                         </a>
                     </li>
+                    <li>
+                        <a href="{{route('categories.index')}}">
+                            <span class="oi oi-people"></span> Manage Categories
+                        </a>
+                    </li>
                     <div class="d-block d-md-none">
                         <div class="dropdown-divider"></div>
                         <li><a href="#"> Profile</a></li>
@@ -119,6 +124,20 @@
         }
         $('#avatar').change(function() {
             readURL(this);
+        });
+    </script>
+    <script type="text/javascript">
+        function readURL2(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    $('#new-img2').attr('src', e.target.result);
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+        $('#cat-img').change(function() {
+            readURL2(this);
         });
     </script>
     <script>
