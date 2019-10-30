@@ -129,6 +129,44 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $category = \App\Category::findOrFail($id);
+
+        $category->delete();
+
+        return redirect()->route('categories.index')->with('status', 'Category successfuly moved to trash');
+    }
+
+    public function trash(){
+        
+        $deleted_category = \App\Category::onlyTrashed()->paginate(2);
+
+        return view('categories.trash', ['categories' => $deleted_category]);
+    }
+
+    public function restore($id){
+
+        $category = \App\Category::withTrashed()->findOrFail($id);
+
+        if($category->trashed()){
+            $category->restore();
+        } else {
+            return redirect()->route('categories.index')->with('status', 'Category is not in trash');
+        }
+
+        return redirect()->route('categories.trash')->with('status', 'category successfully restored');
+    }
+
+    public function deletePermanent($id){
+
+        $category = \App\Category::withTrashed()->findOrFail($id);
+
+        if(!$category->trashed()){
+            return redirect()->route('categories.trash')->with('status', 'Cannot delete permanent active category');
+        } else {
+            $category->forceDelete();
+
+            return redirect()->route('categories.trash')->with('status', 'Category permanent deleted');
+        }
+
     }
 }
