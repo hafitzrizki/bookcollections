@@ -26,4 +26,9 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::resource('users','UserController');
 
+//route trash dan restore harus diletakkan sebelum route resource si category
+Route::get('/categories/trash', 'CategoryController@trash')->name('categories.trash');
+Route::get('/categories/{id}/restore', 'CategoryController@restore')->name('categories.restore');
+Route::delete('/categories/{category}/delete-permanent', 'CategoryController@deletePermanent')->name('categories.delete-permanent');
+
 Route::resource('categories', 'CategoryController');
